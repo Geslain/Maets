@@ -1,3 +1,4 @@
-app:
-    resource: "@AppBundle/Controller/"
+acme_store:
+    resource: "@AcmeStoreBundle/Controller/"
     type:     annotation
+    prefix:   /
