@@ -28,7 +28,9 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "doctrine/mongodb-odm": "~1.0",
-        "doctrine/mongodb-odm-bundle": "@dev"
+        "doctrine/mongodb-odm-bundle": "@dev",
+        "ismaambrosi/generator-bundle": "^2.5",
+        "friendsofsymfony/user-bundle": "~2.0@dev"
 
     },
     "require-dev": {

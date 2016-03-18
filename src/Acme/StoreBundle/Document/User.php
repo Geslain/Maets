@@ -9,11 +9,13 @@
 namespace Acme\StoreBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use FOS\UserBundle\Model\User as BaseUser;
+
 
 /**
- * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="Acme\StoreBundle\Repository\UserRepository")
  */
-class User
+class User extends BaseUser
 {
     /**
      * @MongoDB\Id
@@ -24,6 +26,11 @@ class User
      * @MongoDB\String
      */
     protected $name;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $pseudo;
 
     /**
      * Get id
