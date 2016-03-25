@@ -18,19 +18,18 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     /**
-     * @MongoDB\Id
+     * @MongoDB\Id(strategy="auto")
      */
     protected $id;
 
     /**
-     * @MongoDB\String
+     * User constructor.
      */
-    protected $name;
+    public function __construct()
+    {
+        $this->enabled = true;
+    }
 
-    /**
-     * @MongoDB\String
-     */
-    protected $pseudo;
 
     /**
      * Get id
@@ -40,27 +39,5 @@ class User extends BaseUser
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return self
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string $name
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 }

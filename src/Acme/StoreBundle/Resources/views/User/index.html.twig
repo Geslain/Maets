@@ -12,7 +12,7 @@
     {% for document in documents %}
         <tr>
             <td><a href="{{ path('user_show', { 'id': document.id }) }}">{{ document.id }}</a></td>
-            <td>{{ document.name }}</td>
+            <td>{{ document.username }}</td>
             <td>
                 <ul>
                     <li>
