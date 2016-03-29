@@ -72,9 +72,8 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $dm = $this->getDocumentManager();
-            $dm->persist($document);
-            $dm->flush();
+            $dm = $this->get('fos_user.user_manager');
+            $dm->updateUser($document);
 
             return $this->redirect($this->generateUrl('user_show', array('id' => $document->getId())));
         }
@@ -163,7 +162,7 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $dm = $this->getDocumentManager();
+        $dm = $this->get('fos_user.user_manager');
 
         $document = $dm->getRepository('AcmeStoreBundle:User')->find($id);
 
@@ -177,8 +176,7 @@ class UserController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $dm->persist($document);
-            $dm->flush();
+            $dm->updateUser($document);
 
             return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
         }
