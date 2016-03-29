@@ -12,50 +12,99 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 
 /**
- * @ODM\Document
+ * @ODM\EmbeddedDocument
  */
-class Badge
+class PlayerInfo
 {
     /**
-     * @ODM\Id(strategy="auto")
+     * @ODM\ReferenceOne(targetDocument="Game", cascade={"persist"})
      */
-    protected $id;
+    protected $game;
 
     /**
      * @var
-     * @ODM\Field(type="string")
+     * @ODM\Field(type="collection")
      */
-    protected $name;
+    protected $scores;
+
+    /**
+     * @ODM\Field(type="collection")
+     */
+    protected $badges;
+
+
+    /**
+     * PlayerInfo constructor.
+     */
+    function __construct()
+    {
+        $this->badges = array();
+    }
 
     /**
      * @return mixed
      */
-    public function getId()
+    public function getGame()
     {
-        return $this->id;
+        return $this->game;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $game
      */
-    public function setId($id)
+    public function setGame($game)
     {
-        $this->id = $id;
+        $this->game = $game;
     }
 
     /**
      * @return mixed
      */
-    public function getName()
+    public function getScores()
     {
-        return $this->name;
+        return $this->scores;
     }
 
     /**
-     * @param mixed $name
+     * @param mixed $scores
      */
-    public function setName($name)
+    public function setScores($scores)
     {
-        $this->name = $name;
+        $this->scores = $scores;
     }
+
+    /**
+     * @param mixed $score
+     */
+    public function addScore($score)
+    {
+        $this->scores[] = $score;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getBadges()
+    {
+        return $this->badges;
+    }
+
+    /**
+     * @param mixed $badges
+     */
+    public function setBadges($badges)
+    {
+        $this->badges = $badges;
+    }
+
+    /**
+     * @param mixed $badge
+     */
+    public function addBadge($badge)
+    {
+        $this->badges[] = $badge;
+    }
+
+
 }
