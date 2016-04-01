@@ -16,33 +16,8 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AcmeStoreBundle:Default:index.html.twig');
-    }
+        $user = $this->getUser();
 
-    /**
-     * @Route("/create")
-     */
-    public function createAction()
-    {
-        $product = new User();
-        $product->setName('A Foo Bar');
-
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $dm->persist($product);
-        $dm->flush();
-
-        return new Response('Created product id '.$product->getId());
-    }
-
-
-    /**
-     * @Route("/get/{id}")
-     */
-    public function showAction(User $user = null)
-    {
-        $dm = $this->get('doctrine_mongodb')->getRepository('AcmeStoreBundle:User');
-        dump($dm->findAll());
-        dump($user);
-        return new Response('Get product id ' . $user->getId(). ' , Name :' . $user->getName());
+        return $this->render('AcmeStoreBundle:default:index.html.twig',array("user"=>$user));
     }
 }

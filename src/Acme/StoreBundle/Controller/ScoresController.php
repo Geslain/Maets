@@ -10,6 +10,7 @@ namespace Acme\StoreBundle\Controller;
 
 use Acme\StoreBundle\Document\Game;
 use Acme\StoreBundle\Document\PlayerInfo;
+use Acme\StoreBundle\Document\ScorePlayer;
 use Acme\StoreBundle\Document\User;
 use FOS\RestBundle\Controller\FOSRestController;
 use JMS\Serializer\SerializerBuilder;
@@ -45,7 +46,6 @@ class ScoresController extends FOSRestController
                 /** @var User $user */
                 $user->setUsername($data["player"]);
                 $user->setPlainPassword($data["player"]);
-                $userManager->updateUser($user);
             }
 
             if (!$game = $gameRepository->findOneByName($gameName)) {
@@ -57,14 +57,18 @@ class ScoresController extends FOSRestController
             if(!$playerInfo = $this->haveGame($user, $game)){
                 $playerInfo = new PlayerInfo();
                 $playerInfo->setGame($game);
-                $playerInfo->addScore($data["score"]);
+            }
+
+            $score = new ScorePlayer();
+            $score->setValue($data["score"]);
+            $score->setDate(new \DateTime());
+            $playerInfo->addScore($score);
+
+            if(!$playerInfo = $this->haveGame($user, $game)) {
                 $user->addPlayerInfos($playerInfo);
-            } else {
-                $playerInfo->addScore($data["score"]);
             }
 
             $userManager->updateUser($user);
-            $em->persist($user);
             $em->persist($game);
             $em->flush();
 

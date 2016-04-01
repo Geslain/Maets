@@ -66,3 +66,10 @@ fos_user:
     db_driver: mongodb # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: Acme\StoreBundle\Document\User
+
+assetic:
+    debug: "%kernel.debug%"
+    use_controller: "%kernel.debug%"
+    bundles: [ AcmeStoreBundle ]
+    filters:
+        cssrewrite: ~

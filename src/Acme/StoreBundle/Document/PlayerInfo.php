@@ -22,13 +22,12 @@ class PlayerInfo
     protected $game;
 
     /**
-     * @var
-     * @ODM\Field(type="collection")
+     * @ODM\EmbedMany(targetDocument="ScorePlayer")
      */
     protected $scores;
 
     /**
-     * @ODM\Field(type="collection")
+     * @ODM\EmbedMany(targetDocument="BadgePlayer")
      */
     protected $badges;
 
@@ -39,6 +38,7 @@ class PlayerInfo
     function __construct()
     {
         $this->badges = array();
+        $this->scores = array();
     }
 
     /**

@@ -12,3 +12,8 @@ services:
             arguments: ['@doctrine_mongodb']
             tags:
                 - { name: request.param_converter, priority: -2, converter: doctrine_mongo_db_param_converter}
+    app.twig_extension:
+            class: Acme\StoreBundle\Twig\AppExtension
+            public: false
+            tags:
+                - { name: twig.extension }

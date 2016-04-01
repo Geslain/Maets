@@ -8,6 +8,7 @@
 
 namespace Acme\StoreBundle\Controller;
 
+use Acme\StoreBundle\Document\BadgePlayer;
 use Acme\StoreBundle\Document\Game;
 use Acme\StoreBundle\Document\PlayerInfo;
 use Acme\StoreBundle\Document\User;
@@ -46,7 +47,6 @@ class StatController extends FOSRestController
                 /** @var User $user */
                 $user->setUsername($data["player"]);
                 $user->setPlainPassword($data["player"]);
-                $userManager->updateUser($user);
             }
 
             if (!$game = $gameRepository->findOneByName($gameName)) {
@@ -54,24 +54,31 @@ class StatController extends FOSRestController
                 $game->setName($gameName);
             }
 
-            $badges = $game->getBadges();
-            if (!in_array($data["badge"],$badges)) {
+            $gameBadges = $game->getBadges();
+            if (!in_array($data["badge"],$gameBadges)) {
                 $game->addBadge($data["badge"]);
             }
 
             if(!$playerInfo = $this->haveGame($user, $game)){
                 $playerInfo = new PlayerInfo();
                 $playerInfo->setGame($game);
-                $playerInfo->addBadge($data["badge"]);
+
+                $badge = new BadgePlayer();
+                $badge->setName($data["badge"]);
+                $badge->setDate(new \DateTime());
+                $playerInfo->addBadge($badge);
+
                 $user->addPlayerInfos($playerInfo);
             } else {
-                if (!in_array($data["badge"],$badges)) {
-                    $playerInfo->addBadge($data["badge"]);
+                if (!$this->haveBadge($playerInfo->getBadges(),$data["badge"])) {
+                    $badge = new BadgePlayer();
+                    $badge->setName($data["badge"]);
+                    $badge->setDate(new \DateTime());
+                    $playerInfo->addBadge($badge);
                 }
             }
 
             $userManager->updateUser($user);
-            $em->persist($user);
             $em->persist($game);
             $em->flush();
 
@@ -98,6 +105,23 @@ class StatController extends FOSRestController
             if($playerInfo->getGame()->getId() == $game->getId())
             {
                 return $playerInfo;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param $badges
+     * @param $badgeName
+     * @return bool
+     */
+    public function haveBadge($badges, $badgeName)
+    {
+        foreach ($badges as $badge) {
+            /** @var BadgePlayer $badge */
+            if($badge->getName() == $badgeName)
+            {
+                return true;
             }
         }
         return false;
