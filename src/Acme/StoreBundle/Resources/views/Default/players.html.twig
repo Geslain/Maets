@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% for user in users %}
+                    <h2>Joueur: {{ user.username }}<br></h2>
+                    <h3>Nombre de jeu : {{ user.playerInfos |length }}<h3>
+                    <br>
+                    <br>
+                    {% for playerInfo in user.playerInfos %}
+                        <h3>{{  playerInfo.game.name }}</h3><br>
+                        <h3>Scores : ({{  playerInfo.scores |length}}) (Best : {{ maxScore(playerInfo.scores)}})</h3> <br>
+                        {% for score in playerInfo.scores %}
+                            {{ score.value ~ " points le " ~ score.date | date("d m Y h:i:s")}}<br>
+                        {% endfor %}
+                        <br>
+                        <h3>Badges : ({{  playerInfo.badges |length}})</h3><br>
+                        {% for badge in playerInfo.badges %}
+                            {{ badge.name ~ " obtenu le " ~ badge.date | date("d m Y h:i:s")}}<br>
+                        {% endfor %}
+                        <br>
+                        <br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+

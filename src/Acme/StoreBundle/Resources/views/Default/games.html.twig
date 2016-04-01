@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                {% for game in games %}
+                    <h2>Jeu: {{ game.name }}<br></h2>
+                    <h3>Badges : ({{  game.badges |length}})</h3><br>
+                    {% for badge in game.badges %}
+                        {{ badge }}<br>
+                    {% endfor %}
+                    <br>
+                    <br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
